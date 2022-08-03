@@ -24,7 +24,7 @@ import (
 	"time"
 
 	"github.com/golang/glog"
-	"github.com/google/go-licenses/internal/third_party/pkgsite/source"
+	"github.com/piiano/go-licenses/internal/third_party/pkgsite/source"
 	"golang.org/x/tools/go/packages"
 )
 
@@ -107,7 +107,7 @@ func Libraries(ctx context.Context, classifier Classifier, ignoredPaths []string
 		}
 		if p.Module == nil {
 			otherErrorOccurred = true
-			glog.Errorf("Package %s does not have module info. Non go modules projects are no longer supported. For feedback, refer to https://github.com/google/go-licenses/issues/128.", p.PkgPath)
+			glog.Errorf("Package %s does not have module info. Non go modules projects are no longer supported. For feedback, refer to https://github.com/piiano/go-licenses/issues/128.", p.PkgPath)
 			return false
 		}
 		licensePath, err := Find(pkgDir, p.Module.Dir, classifier)
@@ -250,7 +250,7 @@ func (l *Library) FileURL(ctx context.Context, filePath string) (string, error) 
 		// This always happens for the module in development.
 		// Note#1 if we pass version=HEAD to source.ModuleInfo, github tag for modules not at the root
 		// of the repo will be incorrect, because there's a convention that:
-		// * I have a module at github.com/google/go-licenses/submod.
+		// * I have a module at github.com/piiano/go-licenses/submod.
 		// * The module is of version v1.0.0.
 		// Then the github tag should be submod/v1.0.0.
 		// In our case, if we pass HEAD as version, the result commit will be submod/HEAD which is incorrect.
@@ -261,7 +261,7 @@ func (l *Library) FileURL(ctx context.Context, filePath string) (string, error) 
 		// always refers to the default branch, so it's better than
 		// both of master/main when we do not know which branch is default.
 		// Examples:
-		// * https://github.com/google/go-licenses/blob/HEAD/LICENSE
+		// * https://github.com/piiano/go-licenses/blob/HEAD/LICENSE
 		// points to latest commit of master branch.
 		// * https://github.com/google/licenseclassifier/blob/HEAD/LICENSE
 		// points to latest commit of main branch.
@@ -273,7 +273,7 @@ func (l *Library) FileURL(ctx context.Context, filePath string) (string, error) 
 		return "", wrap(err)
 	}
 	// TODO: there are still rare cases this may result in an incorrect URL.
-	// https://github.com/google/go-licenses/issues/73#issuecomment-1005587408
+	// https://github.com/piiano/go-licenses/issues/73#issuecomment-1005587408
 	return remote.FileURL(relativePath), nil
 }
 

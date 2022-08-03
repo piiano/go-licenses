@@ -44,7 +44,7 @@ Prerequisites:
 Typically, specify the Go package that builds your Go binary.
 go-licenses expects the same package argument format as "go build".
 For example:
-* A rooted import path like "github.com/google/go-licenses" or "github.com/piiano/go-licenses/licenses".
+* A rooted import path like "github.com/piiano/go-licenses" or "github.com/piiano/go-licenses/licenses".
 * A relative path that denotes the package in that directory, like "." or "./cmd/some-command".
 To learn more about Go package argument, run "go help packages".`
 )
