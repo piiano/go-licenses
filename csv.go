@@ -16,7 +16,6 @@ package main
 
 import (
 	"context"
-	"encoding/csv"
 	"os"
 
 	"github.com/golang/glog"
@@ -34,17 +33,22 @@ var (
 		RunE:  csvMain,
 	}
 
-	gitRemotes []string
+	gitRemotes  []string
+	tableFormat bool
 )
 
 func init() {
 	csvCmd.Flags().StringArrayVar(&gitRemotes, "git_remote", []string{"origin", "upstream"}, "Remote Git repositories to try")
+	csvCmd.Flags().BoolVar(&tableFormat, "table", false, "Whether the output format should be table")
 
 	rootCmd.AddCommand(csvCmd)
 }
 
 func csvMain(_ *cobra.Command, args []string) error {
-	writer := csv.NewWriter(os.Stdout)
+	var writer writer = NewCSVWriter(os.Stdout)
+	if tableFormat {
+		writer = NewTableWriter(os.Stdout, []string{"name", "license_url", "license_name"})
+	}
 
 	classifier, err := licenses.NewClassifier(confidenceThreshold)
 	if err != nil {
@@ -72,7 +76,7 @@ func csvMain(_ *cobra.Command, args []string) error {
 				glog.Warningf("Error discovering license URL: %s", err)
 			}
 		}
-		if err := writer.Write([]string{lib.Name(), licenseURL, licenseName}); err != nil {
+		if err := writer.Write(lib.Name(), licenseURL, licenseName); err != nil {
 			return err
 		}
 	}

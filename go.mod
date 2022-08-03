@@ -10,6 +10,7 @@ require (
 	github.com/google/licenseclassifier v0.0.0-20210722185704-3043a050f148
 	github.com/kr/text v0.2.0 // indirect
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
+	github.com/olekukonko/tablewriter v0.0.5
 	github.com/otiai10/copy v1.6.0
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/sergi/go-diff v1.2.0 // indirect
