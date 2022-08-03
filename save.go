@@ -24,8 +24,8 @@ import (
 	"strings"
 
 	"github.com/golang/glog"
-	"github.com/google/go-licenses/licenses"
 	"github.com/otiai10/copy"
+	"github.com/piiano/go-licenses/licenses"
 	"github.com/spf13/cobra"
 )
 

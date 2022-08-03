@@ -19,7 +19,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/google/go-licenses/licenses"
+	"github.com/piiano/go-licenses/licenses"
 	"github.com/spf13/cobra"
 )
 
