@@ -1,4 +1,4 @@
-module github.com/google/go-licenses
+module github.com/piiano/go-licenses
 
 go 1.16
 
