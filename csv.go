@@ -19,8 +19,14 @@ import (
 	"os"
 
 	"github.com/golang/glog"
-	"github.com/piiano/go-licenses/licenses"
 	"github.com/spf13/cobra"
+
+	"github.com/piiano/go-licenses/licenses"
+)
+
+const (
+	OutputFormatTable         = "table"
+	OutputFormatMarkdownTable = "md-table"
 )
 
 var (
@@ -33,21 +39,29 @@ var (
 		RunE:  csvMain,
 	}
 
-	gitRemotes  []string
-	tableFormat bool
+	gitRemotes    []string
+	tableFormat   bool
+	mdTableFormat bool
 )
 
 func init() {
 	csvCmd.Flags().StringArrayVar(&gitRemotes, "git_remote", []string{"origin", "upstream"}, "Remote Git repositories to try")
-	csvCmd.Flags().BoolVar(&tableFormat, "table", false, "Whether the output format should be table")
+	csvCmd.Flags().BoolVar(&tableFormat, OutputFormatTable, false, "Whether the output format should be table")
+	csvCmd.Flags().BoolVar(&mdTableFormat, OutputFormatMarkdownTable, false, "Whether the output format should be table")
+
+	csvCmd.MarkFlagsMutuallyExclusive(OutputFormatTable, OutputFormatMarkdownTable)
 
 	rootCmd.AddCommand(csvCmd)
 }
 
 func csvMain(_ *cobra.Command, args []string) error {
+	header := []string{"name", "license_url", "license_name"}
+
 	var writer writer = NewCSVWriter(os.Stdout)
 	if tableFormat {
-		writer = NewTableWriter(os.Stdout, []string{"name", "license_url", "license_name"})
+		writer = NewTableWriter(os.Stdout, header)
+	} else if mdTableFormat {
+		writer = NewMarkdownTableWriter(os.Stdout, header)
 	}
 
 	classifier, err := licenses.NewClassifier(confidenceThreshold)
