@@ -59,6 +59,18 @@ func NewTableWriter(w io.Writer, header []string) tableWriter {
 	}
 }
 
+func NewMarkdownTableWriter(w io.Writer, header []string) tableWriter {
+	table := tablewriter.NewWriter(w)
+
+	table.SetHeader(header)
+	table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
+	table.SetCenterSeparator("|")
+
+	return tableWriter{
+		w: table,
+	}
+}
+
 func (tw tableWriter) Write(args ...string) error {
 	tw.w.Append(args)
 	return nil
